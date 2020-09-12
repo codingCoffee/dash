@@ -2,14 +2,14 @@ body {
   background-color: var(--body-background);
 }
 
-.video-grid {
+#canvas-wrapper {
   display: grid;
   grid-template-columns: repeat(auto-fill, 30rem);
   grid-auto-rows: 20rem;
   padding: 2.5rem;
 }
 
-video {
+video, canvas {
   width: 100%;
   height: 100%;
   object-fit: cover;
