@@ -71,6 +71,11 @@ function addVideoStream(video, stream) {
 }
 
 let PIN;
+myPeer.on('open', id => {
+  console.log("Connected to peer server")
+  PIN = id;
+})
+
 document.getElementById("join-room").onclick = function joinRoom() {
   roomid = document.getElementById("roomid").value;
   console.log(`Joining room ${roomid}`);
@@ -80,9 +85,8 @@ document.getElementById("join-room").onclick = function joinRoom() {
 document.getElementById("create-room").onclick = function newRoom() {
   createRoom().then((room) => {
     document.getElementById("roomid").value = room.roomid;
-    console.log(`RoomID: ${room.roomid} UserID: ${id}`);
-    PIN = id;
-    socket.emit("join-room", room.roomid, id);
+    console.log(`RoomID: ${room.roomid} UserID: ${PIN}`);
+    socket.emit("join-room", room.roomid, PIN);
     console.log("Connected to peer server");
   });
 }
