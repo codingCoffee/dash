@@ -23,6 +23,18 @@ lightning fast p2p video chat with gesture recognition
 - 404 on favicon.ico
 
 
+## Architecture
+
+- Routing done via nginx
+
+- `/`
+  - landing page
+  - list of connected members
+- `/api`
+  - createroom
+  - joinroom
+
+
 ## Idea Credits
 
 - [@mpj](https://twitter.com/mpjme), [talking about it](https://youtu.be/6To3Rt4w3ys?t=324) on [Fun Fun Function](https://www.youtube.com/c/funfunfunction)
