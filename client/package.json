@@ -11,13 +11,15 @@
   "author": "Ameya Shenoy",
   "license": "AGPLv3",
   "devDependencies": {
-    "parcel-bundler": "^1.12.4"
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.26.10"
   },
   "dependencies": {
-    "@tensorflow-models/handpose": "0.0.6",
+    "@tensorflow-models/handpose": "^0.0.6",
+    "@tensorflow/tfjs-backend-cpu": "^2.3.0",
     "@tensorflow/tfjs-backend-webgl": "^2.3.0",
-    "@tensorflow/tfjs-converter": "^2.3.0",
-    "@tensorflow/tfjs-core": "^2.3.0",
+    "@tensorflow/tfjs-converter": "^2.1.0",
+    "@tensorflow/tfjs-core": "2.3.0",
     "peer": "^0.5.3",
     "peerjs": "^1.3.1",
     "socket.io": "^2.3.0",
