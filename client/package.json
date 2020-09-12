@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel -p 8000 src/index.html",
+    "dev": "parcel -p 8000 src/index.html --no-hmr",
     "prod": "parcel build src/index.html"
   },
   "keywords": [],
