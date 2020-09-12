@@ -20,26 +20,19 @@ services:
     image: codingcoffee/dash-server-dev
     build:
       context: ../server
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     restart: unless-stopped
     container_name: dash-server
     environment:
       - APP_HOST=0.0.0.0
       - APP_PORT=80
-    volumes:
-      - ../server:/app
-    command: "/bin/sh -c 'npm i && npm run dev'"
 
   dash-client:
     image: codingcoffee/dash-client-dev
     build:
       context: ../client
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     restart: unless-stopped
     container_name: dash-client
-    environment:
-      - CHOKIDAR_USEPOLLING=1
-    volumes:
-      - ../client:/app
-    command: "/bin/sh -c 'npm i && npm run dev'"
+
 
