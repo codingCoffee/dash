@@ -106,7 +106,6 @@ function addVideoStream(video, stream) {
   videoGrid.append(video);
 }
 
-let PIN;
 myPeer.on('open', id => {
   console.log("Connected to peer server")
   PIN = id;
