@@ -24,10 +24,9 @@ import Stats from 'stats.js';
 const socket = io("/");
 // TODO: ssl on peer server
 const myPeer = new Peer(undefined, {
-  debug: 3,
   host: "/",
-  port: "8000",
-  path: "/dash",
+  port: window.location.hostname=="localhost" ? "8000":"443",
+  path: "/peerjs",
   proxied: true,
 });
 
