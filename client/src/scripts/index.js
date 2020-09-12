@@ -218,7 +218,6 @@ const landmarksRealTime = async (video) => {
     if (predictions.length > 0) {
       const result = predictions[0].landmarks;
       drawKeypoints(result, predictions[0].annotations);
-      console.log(predictions[0])
     }
     stats.end();
     rafID = requestAnimationFrame(frameLandmarks);
