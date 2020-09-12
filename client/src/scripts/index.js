@@ -20,7 +20,7 @@ const myPeer = new Peer(undefined, {
 
 const peers = {}
 
-const videoGrid = document.getElementById("video-grid");
+const videoGrid = document.getElementsByClassName("video-grid")[0];
 const myVideo = document.createElement("video");
 myVideo.muted = true;
 
@@ -71,21 +71,21 @@ function addVideoStream(video, stream) {
 }
 
 let PIN;
-document.getElementById("joinroom").onclick = function joinRoom() {
+document.getElementById("join-room").onclick = function joinRoom() {
   roomid = document.getElementById("roomid").value;
   console.log(`Joining room ${roomid}`);
   socket.emit("join-room", roomid, PIN);
 };
 
-myPeer.on("open", (id) => {
-  console.log("Connected to peer server");
+document.getElementById("create-room").onclick = function newRoom() {
   createRoom().then((room) => {
     document.getElementById("roomid").value = room.roomid;
     console.log(`RoomID: ${room.roomid} UserID: ${id}`);
     PIN = id;
     socket.emit("join-room", room.roomid, id);
+    console.log("Connected to peer server");
   });
-});
+}
 
 function connectToNewUser(userid, stream) {
   console.log(`Client Event: Calling using with userid ${userid} `);
