@@ -20,6 +20,7 @@ lightning fast p2p video chat with gesture recognition
   - take action based on recog
 
 - test out and host on domain
+- 404 on favicon.ico
 
 
 ## Idea Credits
