@@ -10,15 +10,7 @@ const pkg = require("./package.json");
 APP_HOST = process.env.APP_HOST || "127.0.0.1";
 APP_PORT = process.env.APP_PORT || 3000;
 
-// TODO: temporary hack to server client, needs to be separated out
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname + "/../client/index.html"));
-});
-app.get("/script.js", (req, res) => {
-  res.sendFile(path.join(__dirname + "/../client/script.js"));
-});
-
-app.get("/info", (req, res) => {
+app.get("/api/info", (req, res) => {
   res.json({
     author: pkg.author,
     description: pkg.description,
@@ -26,20 +18,20 @@ app.get("/info", (req, res) => {
   });
 });
 
-app.get("/health", (req, res) => {
+app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-app.get("/lobby", (req, res) => {
+app.get("/api/lobby", (req, res) => {
   res.json({ users: ["u1", "u2"] });
 });
 
-app.get("/createroom", (req, res) => {
+app.get("/api/createroom", (req, res) => {
   // TODO: use redis later for speed and ephimeral storage
   res.json({ roomid: uuidv4() });
 });
 
-app.get("/room/:roomid", (req, res) => {
+app.get("/api/room/:roomid", (req, res) => {
   console.log(req.params.roomid);
   res.json({ access: "denied" });
 });

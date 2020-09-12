@@ -2,6 +2,14 @@
 // TODO: cleanup script.js
 // TODO: handle listening on original room
 // TODO: console log all connections to server (will be helpful for paranoid mode)
+
+// babel x_x
+import 'regenerator-runtime/runtime'
+
+// deps
+import io from 'socket.io-client';
+import Peer from 'peerjs';
+
 const socket = io("/");
 // TODO: ssl on peer server
 const myPeer = new Peer(undefined, {
@@ -48,7 +56,7 @@ socket.on("user-disconnected", (userid) => {
 
 
 async function createRoom() {
-  const url = "/createroom";
+  const url = "/api/createroom";
   const response = await fetch(url);
   return response.json();
 }

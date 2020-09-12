@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel src/index.html",
+    "dev": "parcel -p 8000 src/index.html",
     "prod": "parcel build src/index.html"
   },
   "keywords": [],
@@ -12,5 +12,9 @@
   "license": "AGPLv3",
   "devDependencies": {
     "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {
+    "peer": "^0.5.3",
+    "socket.io": "^2.3.0"
   }
 }

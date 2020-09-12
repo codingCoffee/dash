@@ -1,0 +1,47 @@
+---
+
+version: '3.6'
+
+services:
+
+  dash-nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    container_name: dash-nginx
+    depends_on:
+      - dash-server
+      - dash-client
+    ports:
+      - 8000:80
+    volumes:
+      - ./nginx/nginx-dev.conf:/etc/nginx/conf.d/default.conf:ro
+
+  dash-server:
+    image: codingcoffee/dash-server-dev
+    build:
+      context: ../server
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    container_name: dash-server
+    environment:
+      - APP_HOST=0.0.0.0
+      - APP_PORT=80
+    volumes:
+      - ../server/server.js:/app/server.js
+
+  dash-client:
+    image: codingcoffee/dash-client-dev
+    build:
+      context: ../client
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    container_name: dash-client
+    volumes:
+      - ../client/src:/app/src
+
+  # dash-peerjs-server:
+  #   image: peerjs/peerjs-server
+  #   restart: unless-stopped
+  #   container_name: dash-peerjs-server
+  #   command: node bin/peerjs --port 9000 --path /peerjs
+
