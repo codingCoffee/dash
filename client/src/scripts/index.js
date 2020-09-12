@@ -24,9 +24,11 @@ import Stats from 'stats.js';
 const socket = io("/");
 // TODO: ssl on peer server
 const myPeer = new Peer(undefined, {
-  // debug: 1,
+  debug: 3,
   host: "/",
-  port: "3001",
+  port: "8000",
+  path: "/dash",
+  proxied: true,
 });
 
 let PIN;
