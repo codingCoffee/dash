@@ -5,5 +5,4 @@ RUN set -ex \
   && apk add --no-cache \
     util-linux
 
-CMD [ "npm", "run", "dev" ]
 
