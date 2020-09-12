@@ -27,7 +27,7 @@ services:
       - APP_HOST=0.0.0.0
       - APP_PORT=80
     volumes:
-      - ../server/server.js:/app/server.js
+      - ../server:/app
 
   dash-client:
     image: codingcoffee/dash-client-dev
@@ -36,8 +36,10 @@ services:
       dockerfile: Dockerfile.dev
     restart: unless-stopped
     container_name: dash-client
+    environment:
+      - CHOKIDAR_USEPOLLING=1
     volumes:
-      - ../client/src:/app/src
+      - ../client:/app
 
   # dash-peerjs-server:
   #   image: peerjs/peerjs-server
