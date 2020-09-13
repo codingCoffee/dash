@@ -7,31 +7,32 @@
     <title>Dash</title>
     <script defer src="./scripts/index.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/style.scss">
-    <style>
-    </style>
   </head>
   <body>
+
     <div class="video-div">
       <div id="canvas-wrapper">
         <canvas id="canvas"></canvas>
-        <video id="video-grid" style="
-        visibility: hidden;
-        position: absolute;
-        "></video>
+        <video id="video-grid" style="display: none"></video>
       </div>
-      <div id="peer-video-grid"></div>
+    </div>
+
+    <div class="room-data">
       <div class="room-details">
-        <input
-          type="text"
-          id="roomid"
-          name="roomid"
-          placeholder="Room ID"
-          />
+        <div class="room-id">
+          <input
+            type="text"
+            id="roomid"
+            name="roomid"
+            placeholder="Room ID"
+            />
+        </div>
         <div class="room-buttons">
           <button id="join-room" class="join-btn">Join Room</button>
           <button id="create-room" class="join-btn">Create Room</button>
         </div>
       </div>
     </div>
+
   </body>
 </html>

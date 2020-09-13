@@ -1,42 +1,34 @@
+
 body {
-  background-color: var(--body-background);
+  overflow: hidden;
+  background-color: #FFFFFA;
+  margin: 0;
 }
 
-#canvas-wrapper {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 30rem);
-  grid-auto-rows: 20rem;
-  padding: 2.5rem;
-}
-
-video, canvas {
+video {
   width: 100%;
+}
+
+canvas {
   height: 100%;
-  object-fit: cover;
-  border-radius: 5px;
+  width: 100%;
+}
+
+.room-data {
+  background-color: #1a202c;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .video-div {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  --webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
+  height: calc(100vh - 120px);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  overflow: hidden;
   align-items: center;
-}
-
-.room-details {
-  display: block;
-  margin: auto;
-}
-
-.room-buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 0.75rem;
+  grid-gap: 10px;
 }
 
 input[type=text] {
@@ -46,12 +38,17 @@ input[type=text] {
   border-style: solid;
   --webkit-border-radius: 5px;
   border-radius: 5px;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 .join-btn {
   display: inline-block;
   padding: 0.75rem;
-  margin: 0.25rem;
+  margin-top: 0.25rem;
   background-color: var(--button-color);
   border: none;
   border-radius: 5px;
@@ -59,6 +56,8 @@ input[type=text] {
   text-decoration: none;
   color: #fff;
   cursor: pointer;
+
+  width: 160px;
 
   &:hover,
   &:focus {
@@ -74,10 +73,4 @@ input[type=text] {
   --input-color: #FFFCF9;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --body-background: #080705;
-    --dark-text-color: #FFFFFA;
-    --text-color: var(--body-background);
-  }
-}
+

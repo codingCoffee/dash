@@ -43,7 +43,7 @@ const VIDEO_WIDTH  = 300;
 const VIDEO_HEIGHT = 300;
 const mobile = isMobile();
 
-const videoGrid = document.getElementById("peer-video-grid");
+const videoGrid = document.getElementsByClassName("video-div")[0];
 // const myVideo = document.createElement("video");
 // myVideo.muted = true;
 
