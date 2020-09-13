@@ -20,8 +20,8 @@ import '@tensorflow/tfjs-backend-cpu';
 import * as THREE from 'three';
 import Stats from 'stats.js';
 
-SERVER_HOST = "/";
-SERVER_PORT = window.location.hostname=="localhost" ? "8000": "443";
+let SERVER_HOST = "/";
+let SERVER_PORT = window.location.hostname=="localhost" ? "8000": "443";
 
 const socket = io(SERVER_HOST);
 // TODO: ssl on peer server
