@@ -1,39 +1,43 @@
-
 # Dash
 
-lightning fast p2p video chat with gesture recognition
+A Zoom-like video chat based on WebRTC using STUN/TURN servers
 
-- server
-  - apis
-    - rooms
-    - participants
-    - set username
-  - help establish initial connection for key exchange and stuff
-  - have stun and turn server
-    - https://github.com/coturn/coturn/
-  - limit to 1v1 communication initially
+## Features
 
-- browser client
-  - minimal ui
-  - hand gesture recognition
-  - send recog to peers
-  - take action based on recog
+* Peer-to-Peer, no central server required
+* Application Extensibility through APIs
+* Hand gesture recognition using Tensorflow Handpose
+  * Current Implementation includes raising hands to notify everyone on the stream
+* Ability to run one's own STUN/TURN servers
+* Minimal UI
 
-- test out and host on domain
-- 404 on favicon.ico
+## Setting up
 
+### Docker
 
-## Architecture
+You can use the provided docker-compose to deploy the entire stack:
 
-- Routing done via nginx
+```shell
+$ cd docker/
+$ docker-compose up --build -d
+```
 
-- `/`
-  - landing page
-  - list of connected members
-- `/api`
-  - createroom
-  - joinroom
+If you'd like to run the application in development mode, use `docker-compose.dev.yml` instead:
 
+```shell
+$ cd docker/
+$ docker-compose -f docker-compose.dev.yml up --build -d
+```
+
+### Configuration
+
+For caddy to work, the setup assumes that you will be running the application on a FQDN. You need to edit the `Caddyfile` to point to your own server, and change `your.fqdn` to the domain where the application will be hosted.
+
+In case you'd like to run the application locally using docker, change `your.fqdn` to `localhost:<port>`.
+
+## Using the Application
+
+TODO
 
 ## Idea Credits
 
