@@ -234,7 +234,6 @@ const landmarksRealTime = async (video) => {
     if (predictions.length > 0) {
       const result = predictions[0].landmarks;
       drawKeypoints(result, predictions[0].annotations);
-      // identifyGesture(predictions[0])
       handInVideo.push(1)
     } else {
       handInVideo.push(0)
