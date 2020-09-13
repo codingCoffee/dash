@@ -23,12 +23,14 @@ import Stats from 'stats.js';
 // toast deps
 import Toastify from 'toastify-js'
 
+SERVER_HOST = process.env.SERVER_HOST || "/";
+SERVER_PORT = process.env.SERVER_PORT || window.location.hostname=="localhost" ? "8000": "443";
 
-const socket = io("/");
+const socket = io(SERVER_HOST);
 // TODO: ssl on peer server
 const myPeer = new Peer(undefined, {
-  host: "/",
-  port: window.location.hostname=="localhost" ? "8000":"443",
+  host: SERVER_HOST,
+  port: SERVER_PORT,
   path: "/peerjs",
   proxied: true,
 });
@@ -96,7 +98,7 @@ socket.on("user-disconnected", (userid) => {
 
 
 async function createRoom() {
-  const url = "/api/createroom";
+  const url = SERVER_HOST + "/api/createroom";
   const response = await fetch(url);
   return response.json();
 }
