@@ -12,4 +12,3 @@ RUN NODE_ENV=production npm run prod
 
 FROM nginx:1.19.2-alpine
 COPY --from=builder /app/dist/ /usr/share/nginx/html
-

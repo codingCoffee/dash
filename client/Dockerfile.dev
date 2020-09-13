@@ -4,5 +4,3 @@ WORKDIR /app
 RUN set -ex \
   && apk add --no-cache \
     util-linux
-
-
