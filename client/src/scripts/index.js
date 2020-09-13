@@ -18,7 +18,10 @@ import '@tensorflow/tfjs-backend-cpu';
 
 // canvas deps
 import * as THREE from 'three';
-import Stats from 'stats.js';
+
+// toast deps
+import "toastify-js/src/toastify.css"
+import Toastify from 'toastify-js'
 
 let SERVER_HOST = "/";
 let SERVER_PORT = window.location.hostname=="localhost" ? "8000": "443";
@@ -44,10 +47,6 @@ const videoGrid = document.getElementById("peer-video-grid");
 // const myVideo = document.createElement("video");
 // myVideo.muted = true;
 
-const stats = new Stats();
-stats.showPanel(0);
-document.body.appendChild(stats.dom);
-
 let videoWidth, videoHeight, rafID, ctx, canvas, fingerLookupIndices = {
     thumb: [0, 1, 2, 3, 4],
     indexFinger: [0, 5, 6, 7, 8],
@@ -64,7 +63,7 @@ async function setupCamera() {
   }
   navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-  console.log("Requesting camera and microphone access...")
+  console.log("Requesting camera && microphone access...")
   const video = document.getElementById('video-grid');
   const stream = await navigator.mediaDevices.getUserMedia({
     audio: true,
@@ -113,6 +112,22 @@ myPeer.on('open', id => {
   console.log("Connected to peer server")
   PIN = id;
 })
+
+myPeer.on('connection', function(conn) {
+  conn.on('data', function(data) {
+    console.log('Received data from peer:', data);
+    console.log('Received data from coon:', conn);
+    Toastify({
+      text: `${conn.peer} ${data}`,
+      duration: 7000,
+      close: true,
+      gravity: "top", // `top` or `bottom`
+      position: 'right', // `left`, `center` or `right`
+      backgroundColor: "red",
+      stopOnFocus: true, // Prevents dismissing of toast on hover
+    }).showToast();
+  });
+});
 
 document.getElementById("join-room").onclick = function joinRoom() {
   roomid = document.getElementById("roomid").value;
@@ -214,19 +229,46 @@ async function loadVideo() {
 
 const landmarksRealTime = async (video) => {
   async function frameLandmarks() {
-    stats.begin();
     ctx.drawImage(video, 0, 0, videoWidth, videoHeight, 0, 0, canvas.width, canvas.height);
     const predictions = await model.estimateHands(video);
     if (predictions.length > 0) {
       const result = predictions[0].landmarks;
       drawKeypoints(result, predictions[0].annotations);
+      handInVideo.push(1)
+    } else {
+      handInVideo.push(0)
     }
-    stats.end();
+    shouldRaiseHand();
     rafID = requestAnimationFrame(frameLandmarks);
   };
   frameLandmarks();
 };
 
+let handInVideo = [];
+
+async function shouldRaiseHand() {
+  let requiredOnes = 25;
+  let checkConsecutiveElements = 55;
+  let consecutiveOnes = handInVideo.slice(Math.max(handInVideo.length - checkConsecutiveElements, 0)).reduce(function(a, b){return a + b;})
+  if (consecutiveOnes >= requiredOnes){
+    console.log("Hand in video!")
+    myPeer.listAllPeers((connectedPeers) => {
+      for (let peer of connectedPeers) {
+        const conn = myPeer.connect(peer);
+        conn.on('open', function() {
+          // Send messages
+          console.log('Sending hand raised event to peer');
+          conn.send('Raised hand!');
+        });
+      }
+    })
+    myPeer.connect();
+    handInVideo = [];
+  } else if (handInVideo.length >= checkConsecutiveElements && consecutiveOnes == 0) {
+    console.log("Array cleared!");
+    handInVideo = [];
+  }
+}
 
 async function main() {
   console.log("Loading handpose model...")

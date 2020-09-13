@@ -52,6 +52,6 @@ io.on("connection", (socket) => {
 
 server.listen(APP_PORT, APP_HOST);
 
-const peerServer = ExpressPeerServer(server);
+const peerServer = ExpressPeerServer(server, {allow_discovery: true});
 app.use('/peerjs', peerServer);
 
