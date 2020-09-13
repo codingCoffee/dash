@@ -20,6 +20,9 @@ import '@tensorflow/tfjs-backend-cpu';
 import * as THREE from 'three';
 import Stats from 'stats.js';
 
+// toast deps
+import Toastify from 'toastify-js'
+
 
 const socket = io("/");
 // TODO: ssl on peer server
@@ -62,7 +65,7 @@ async function setupCamera() {
   }
   navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-  console.log("Requesting camera and microphone access...")
+  console.log("Requesting camera && microphone access...")
   const video = document.getElementById('video-grid');
   const stream = await navigator.mediaDevices.getUserMedia({
     audio: true,
@@ -111,6 +114,12 @@ myPeer.on('open', id => {
   console.log("Connected to peer server")
   PIN = id;
 })
+
+myPeer.on('connection', function(conn) {
+  conn.on('data', function(data) {
+    console.log('Received data from peer:', data);
+  });
+});
 
 document.getElementById("join-room").onclick = function joinRoom() {
   roomid = document.getElementById("roomid").value;
@@ -218,13 +227,43 @@ const landmarksRealTime = async (video) => {
     if (predictions.length > 0) {
       const result = predictions[0].landmarks;
       drawKeypoints(result, predictions[0].annotations);
+      // identifyGesture(predictions[0])
+      handInVideo.push(1)
+    } else {
+      handInVideo.push(0)
     }
+    shouldRaiseHand();
     stats.end();
     rafID = requestAnimationFrame(frameLandmarks);
   };
   frameLandmarks();
 };
 
+let handInVideo = [];
+
+async function shouldRaiseHand() {
+  let requiredOnes = 25;
+  let checkConsecutiveElements = 55;
+  let consecutiveOnes = handInVideo.slice(Math.max(handInVideo.length - checkConsecutiveElements, 0)).reduce(function(a, b){return a + b;})
+  if (consecutiveOnes >= requiredOnes){
+    console.log("Hand in video!")
+    myPeer.listAllPeers((connectedPeers) => {
+      for (let peer of connectedPeers) {
+        const conn = myPeer.connect(peer);
+        conn.on('open', function() {
+          // Send messages
+          console.log('Sending hand raised event to peer');
+          conn.send('Raised hand!');
+        });
+      }
+    })
+    myPeer.connect();
+    handInVideo = [];
+  } else if (handInVideo.length >= checkConsecutiveElements && consecutiveOnes == 0) {
+    console.log("Array cleared!");
+    handInVideo = [];
+  }
+}
 
 async function main() {
   console.log("Loading handpose model...")
