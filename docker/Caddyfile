@@ -1,0 +1,28 @@
+your.fqdn {
+
+	route /api/* {
+		reverse_proxy dash-server:80
+	}
+
+	route /peerjs/* {
+		uri strip_prefix /peerjs
+		rewrite * /peerjs{path}
+		reverse_proxy dash-server:80 {
+			header_up Connection "upgrade"
+			header_up Host {host}
+		}
+	}
+
+	route /socket.io/* {
+		uri strip_prefix /socket.io
+		rewrite * /socket.io{path}
+		reverse_proxy dash-server:80 {
+			header_up Connection "upgrade"
+			header_up Host {host}
+		}
+	}
+
+	route /* {
+		reverse_proxy dash-client:8000
+	}
+}
