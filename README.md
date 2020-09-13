@@ -1,4 +1,4 @@
-# Dash
+![](./dist/cover.png)
 
 A Zoom-like video chat based on WebRTC using STUN/TURN servers
 
