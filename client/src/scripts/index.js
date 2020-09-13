@@ -18,9 +18,9 @@ import '@tensorflow/tfjs-backend-cpu';
 
 // canvas deps
 import * as THREE from 'three';
-import Stats from 'stats.js';
 
 // toast deps
+import "toastify-js/src/toastify.css"
 import Toastify from 'toastify-js'
 
 let SERVER_HOST = "/";
@@ -46,10 +46,6 @@ const mobile = isMobile();
 const videoGrid = document.getElementById("peer-video-grid");
 // const myVideo = document.createElement("video");
 // myVideo.muted = true;
-
-const stats = new Stats();
-stats.showPanel(0);
-document.body.appendChild(stats.dom);
 
 let videoWidth, videoHeight, rafID, ctx, canvas, fingerLookupIndices = {
     thumb: [0, 1, 2, 3, 4],
@@ -120,6 +116,16 @@ myPeer.on('open', id => {
 myPeer.on('connection', function(conn) {
   conn.on('data', function(data) {
     console.log('Received data from peer:', data);
+    console.log('Received data from coon:', conn);
+    Toastify({
+      text: `${conn.peer} ${data}`,
+      duration: 7000,
+      close: true,
+      gravity: "top", // `top` or `bottom`
+      position: 'right', // `left`, `center` or `right`
+      backgroundColor: "red",
+      stopOnFocus: true, // Prevents dismissing of toast on hover
+    }).showToast();
   });
 });
 
@@ -223,7 +229,6 @@ async function loadVideo() {
 
 const landmarksRealTime = async (video) => {
   async function frameLandmarks() {
-    stats.begin();
     ctx.drawImage(video, 0, 0, videoWidth, videoHeight, 0, 0, canvas.width, canvas.height);
     const predictions = await model.estimateHands(video);
     if (predictions.length > 0) {
@@ -235,7 +240,6 @@ const landmarksRealTime = async (video) => {
       handInVideo.push(0)
     }
     shouldRaiseHand();
-    stats.end();
     rafID = requestAnimationFrame(frameLandmarks);
   };
   frameLandmarks();
